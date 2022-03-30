@@ -1,0 +1,147 @@
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+
+struct dll
+{   
+	char ssn[10],name[20],dept[10],design[10];
+    int sal, pno;
+    struct dll *lptr,*rptr; 
+};
+
+typedef struct dll node;
+node *start = NULL;
+
+node* create()
+{ 
+    node *new1;
+    new1 = (node*)malloc(sizeof(node));
+    printf(" Enter ssn, name,dept,designsal and pno,");
+    scanf("%s%s%s%s%d%d",new1->ssn,new1->name,new1->dept,new1->design,&new1->sal,&new1->pno);
+    new1->lptr = new1->rptr = NULL;
+    return(new1);
+}
+
+void insert_front()
+{ 
+    node *new1;
+    new1 = create();
+    if (start == NULL)
+    start = new1;
+    else
+    { 
+        new1->rptr = start;
+        start = new1;
+    }
+}
+
+void insert_rear()
+{  
+    node *new1, *temp = start;
+    new1 = create();
+    if (start == NULL)
+    {  
+        start = new1;
+        return;
+    }
+    while ( temp->rptr != NULL)
+        temp = temp->rptr;
+    temp->rptr = new1;
+    new1->lptr = temp;
+}
+void create_nnodes()
+{ 
+	int n, i;
+	printf("Enter No. of Employees\n");  
+	scanf("%d",&n);
+	for(i = 1; i<=n; i++)
+		insert_rear();
+} 
+
+
+void delete_front()
+{ 
+    if (start == NULL)
+    {  
+        printf("List is empty\n");
+        return;
+    }
+
+    if (start ->rptr == NULL)
+    {  
+        printf("deleted record with ssn = %s\n",start->ssn);
+        free(start);
+        start = NULL;
+        return;
+    } 
+    printf("deleted record with ssn = %s\n",start->ssn);
+    start = start->rptr;
+    free(start->lptr);
+    start->lptr = NULL;
+}
+
+
+void delete_rear()
+{   
+    node *temp = start;
+     if (start == NULL)
+    {  
+        printf("List is empty\n");
+        return;
+    }
+
+    if (start->rptr == NULL)
+   {  
+        printf("deleted record with ssn = %s\n",start->ssn);
+        free(start);
+        start = NULL;
+        return;
+    } 
+
+    while(temp->rptr != NULL)
+        temp = temp->rptr;
+
+    (temp->lptr)->rptr = NULL;
+    printf("deleted record with ssn = %s\n",start->ssn);
+    free(temp);
+}
+
+
+void display()
+{ 
+    node *temp = start; int ct = 0;
+    if (start == NULL)
+    {
+        printf("List is empty\n");
+        return;
+    }
+    printf("Contents of DLL are \n");
+    while(temp != NULL)
+    {  
+        printf(" %s %s %s %s %d %d\n ",temp->ssn, temp->name,temp->dept,temp->design,temp->sal, temp->pno);
+        temp = temp->rptr;
+        ct++;
+    }
+    printf("\n no. of nodes = %d",ct);
+}
+
+void main()
+{  
+    int ch;
+    for(;;)
+    { 
+        printf("\n1.insert_rear 2.delete_front 3.Insert_front 4.delete_rear 5.display 6: exit\n");
+        printf("enter your choice\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {  
+            case 1: create_nnodes();break; 
+            case 2: insert_rear();  break;
+            case 3: delete_front(); break;
+	        case 4: insert_front();  break;
+            case 5: delete_rear(); break;
+		    case 6: display(); break;
+	        default :printf("invalid choice\n"); exit(0);
+        }
+    } 
+}

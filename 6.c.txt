@@ -1,0 +1,62 @@
+#include<stdio.h>  
+#include<conio.h>
+#include<stdlib.h>
+#define SIZE 3
+
+char q[SIZE];
+int f = 0, r = -1, count = 0;
+
+void insert_cq()
+{ char item;
+
+  if (count == SIZE)
+  { printf(" the queue overflow\n");  return;
+  }
+
+  printf("Enter the item for insertion\n");  
+  scanf("\n%c",&item);
+  
+  r = (r + 1)%SIZE;
+  q[r] = item;
+  count++;
+}
+
+void delete_cq()
+{ if (count == 0)
+  { printf("Queue underflow\n");
+    return;
+  }
+    printf("Element deleted is %c   ",q[f]);
+    f = (f + 1) % SIZE;
+    count--;
+}
+
+void display_cq()
+{    int i,j = f;
+     if (count == 0)
+     { printf("Queue is empty\n");
+       return;
+     }
+     printf(" The contents of queue are");
+     for ( i = 1; i <= count; i++)
+       {    printf("%c ",q[j]);
+            j = ( j + 1)%SIZE;
+      }
+ }
+
+
+void main()
+{  int ch;  
+   for(;;)
+    { printf("\n1.insert 2.delete 3.display 4: exit\n");
+      printf("Enter your choice\n");       scanf("%d",&ch);
+      switch(ch)
+      {  case 1: insert_cq(); break;
+	   case 2: delete_cq(); break;
+	   case 3: display_cq(); break;
+       default : printf("invalid choice\n"); 
+                 exit(0);
+      }
+     }
+ }
+

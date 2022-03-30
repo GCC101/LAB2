@@ -1,0 +1,128 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct sll
+{   char usn[10], name[20], branch[20];
+    int sem, pno;
+    struct sll *next; 
+};
+
+typedef struct sll node;
+node *start = NULL;
+
+node* create()
+{ node *new1;
+  new1 = (node*) malloc(sizeof(node));
+  printf(" Enter usn, name, branch, sem and pno\n ");
+      scanf("%s%s%s%d%d",new1->usn,new1->name,new1->branch,&new1->sem,&new1->pno);
+  new1->next = NULL;
+  return(new1);
+}
+
+void insert_front()
+{ node *new1;
+  new1 = create();
+  if (start == NULL)
+    start = new1;
+  else
+   { new1->next = start;
+     start = new1;
+   }
+}
+
+void create_nnodes()
+{ int n, i;
+  printf("Enter No. of students\n");   scanf("%d",&n);
+  for(i = 1; i<=n; i++)
+     insert_front();
+} 
+
+void insert_rear()
+{ node *new1, *temp = start;
+  new1 = create();
+  if (start == NULL)
+  {  start = new1;
+      return;
+  }
+ 
+while ( temp->next != NULL)
+  temp = temp->next;
+  
+  temp->next = new1;    }
+void delete_front()
+{ node *temp = start;
+ 
+ if (start == NULL)
+  {  printf("List is empty\n");
+      return;
+  }
+ 
+ if (start ->next == NULL)
+  {  printf("Deleted student is = %s",start->usn);
+     free(temp);
+     start = NULL;
+      return;
+  }
+ start = start->next;
+ printf("deleted student is = %s", temp->usn);
+ free(temp);
+}
+
+void delete_rear()
+{ node *temp = start , *prev;
+ 
+ if (start == NULL)
+  {  printf("List is empty\n");
+      return;
+  }
+  if (start ->next == NULL)
+  { printf("Deleted student is = %s",start->usn);
+      free(temp);
+      start = NULL;
+      return;
+  }
+ while(temp->next != NULL)
+  {     prev = temp;
+        temp = temp->next;
+  }
+  printf("Deleted student is = %s",temp->usn);
+  prev->next = NULL;
+  free(temp);
+}
+
+void display()
+{ node *temp = start; int ct = 0;
+ 
+ if (start == NULL)
+  {  printf("List is empty\n");
+      return;
+  }
+printf("Contents of SLL are \n");
+
+
+ while(temp != NULL)
+  {     printf(" %s %s %s %d %d \n", temp->usn, temp->name, temp->branch, temp->sem, temp->pno);
+        temp = temp->next;
+        ct++;
+  }
+  
+  printf("No. of nodes = %d",ct);
+}
+
+void main()
+{  int ch;
+   
+   for(;;)
+    { printf("\n1.create_nnodes 2.display 3.Insert_rear 4.delete_rear 5.insert_front 6.delete_front 7: exit\n");
+      printf("enter your choice\n");
+      scanf("%d",&ch);
+      switch(ch)
+      {  case 1:  create_nnodes();  break;
+         case 2:  display(); break;
+         case 3:  insert_rear(); break;
+         case 4:  delete_rear(); break;
+         case 5:  insert_front();  break;
+         case 6:  delete_front(); break;
+	         default: printf("invalid choice\n"); exit(0);
+      }
+    } 
+}
